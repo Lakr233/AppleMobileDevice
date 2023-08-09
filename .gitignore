@@ -1,0 +1,11 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm
+.netrc
+*.xcframework
+Resource/Automation/libimobiledevice-dev
+Package.resolved

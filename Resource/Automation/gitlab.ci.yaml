@@ -1,0 +1,30 @@
+image: ghcr.io/cirruslabs/macos-sonoma-xcode:15.1
+
+variables:
+  HOMEBREW_NO_AUTO_UPDATE: 1
+
+stages:
+- CompileFramework
+
+before_script:
+  - export LANG=en_US.UTF-8
+  - export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+  - export PATH=/usr/local/bin/:$PATH
+  - export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/bin:$PATH
+  - export LANG=en_US.UTF-8
+  - uname -a
+
+CompileFramework:
+  tags:
+    - xcode
+  only:
+    variables:
+    - $CI_PIPELINE_SOURCE == "web"
+    - $CI_COMMIT_REF_NAME == "main"
+  stage: CompileFramework
+  script:
+    - brew install libtool autoconf automake pkgconfig coreutils
+    - Resource/Automation/build.sh $(pwd)/.build/framework $(pwd)/libimobiledevice.xcframework
+  artifacts:
+    paths:
+      - libimobiledevice.xcframework
